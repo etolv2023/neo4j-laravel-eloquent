@@ -378,8 +378,7 @@ class Connection implements ConnectionInterface
 
     private function initBuilder(): ClientBuilder
     {
-        $formatter = new SummarizedResultFormatter(OGMFormatter::create());
-        return ClientBuilder::create()->withFormatter($formatter);
+        return ClientBuilder::create();
     }
 
 

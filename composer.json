@@ -1,6 +1,5 @@
 {
-    "name": "global-innovation/neo4j-laravel-eloquent",
-    "version": "v2.3.0",
+    "name": "etolv2023/neo4j-laravel-eloquent",
     "description": "Laravel wrapper for the Neo4j graph database REST interface",
     "keywords": [
         "neo4j",
@@ -35,7 +34,7 @@
         "illuminate/support": "^11.0",
         "illuminate/pagination": "^11.0",
         "nesbot/carbon": "^2.0|^3.0",
-        "laudis/neo4j-php-client": "^2.3.3|^3.0"
+        "etolv2023/neo4j-php-client": "~4.0.0"
     },
     "require-dev": {
         "mockery/mockery": "~1.3.0|^1.6",
