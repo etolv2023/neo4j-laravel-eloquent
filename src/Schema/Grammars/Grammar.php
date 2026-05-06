@@ -2,10 +2,21 @@
 
 namespace Vinelab\NeoEloquent\Schema\Grammars;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Grammars\Grammar as IlluminateSchemaGrammar;
 
 class Grammar extends IlluminateSchemaGrammar
 {
+    /**
+     * Create a new grammar instance.
+     */
+    public function __construct(?Connection $connection = null)
+    {
+        if ($connection) {
+            parent::__construct($connection);
+        }
+    }
+
     /**
      * Make sure the label is wrapped with backticks.
      *
