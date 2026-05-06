@@ -129,7 +129,7 @@ abstract class HasOneOrMany extends Relation implements RelationInterface
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In,Out, etc.]
      */
-    abstract public function getEdge(Model $model = null, $attributes = array());
+    abstract public function getEdge(?Model $model = null, $attributes = array());
 
     /**
      * Get the edge between the parent model and the given model or
@@ -139,7 +139,7 @@ abstract class HasOneOrMany extends Relation implements RelationInterface
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In,Out, etc.]
      */
-    public function edge(Model $model = null)
+    public function edge(?Model $model = null)
     {
         return $this->finder->first($this->parent, $model, $this->type, $this->edgeDirection);
     }

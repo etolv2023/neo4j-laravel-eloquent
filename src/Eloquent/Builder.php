@@ -1335,7 +1335,7 @@ class Builder
      *
      * @return Builder|static
      */
-    public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
+    public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', ?Closure $callback = null)
     {
         if (strpos($relation, '.') !== false) {
             return $this->hasNested($relation, $operator, $count, $boolean, $callback);
@@ -1448,7 +1448,7 @@ class Builder
      *
      * @return Builder|static
      */
-    public function doesntHave($relation, $boolean = 'and', Closure $callback = null)
+    public function doesntHave($relation, $boolean = 'and', ?Closure $callback = null)
     {
         return $this->has($relation, '<', 1, $boolean, $callback);
     }
@@ -1490,7 +1490,7 @@ class Builder
      *
      * @return Builder|static
      */
-    public function whereDoesntHave($relation, Closure $callback = null)
+    public function whereDoesntHave($relation, ?Closure $callback = null)
     {
         return $this->doesntHave($relation, 'and', $callback);
     }

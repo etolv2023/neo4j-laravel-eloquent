@@ -309,7 +309,7 @@ abstract class Relation
      *
      * @return array
      */
-    public static function morphMap(array $map = null, $merge = true)
+    public static function morphMap(?array $map = null, $merge = true)
     {
         if (is_array($map)) {
             static::$morphMap = $merge ? array_merge(static::$morphMap, $map) : $map;

@@ -27,7 +27,7 @@ class Blueprint
      * @param string  $label
      * @param Closure $callback
      */
-    public function __construct($label, Closure $callback = null)
+    public function __construct($label, ?Closure $callback = null)
     {
         $this->label = $label;
 

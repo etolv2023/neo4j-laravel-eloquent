@@ -104,7 +104,7 @@ class BelongsTo extends OneRelation
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\EdgeIn
      */
-    public function getEdge(Model $model = null, $attributes = array())
+    public function getEdge(?Model $model = null, $attributes = array())
     {
         $model = (!is_null($model)) ? $model : $this->parent->{$this->relation};
 

@@ -91,7 +91,7 @@ class MorphedByOne extends OneRelation
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\EdgeOut
      */
-    public function getEdge(Model $model = null, $attributes = array())
+    public function getEdge(?Model $model = null, $attributes = array())
     {
         $model = (!is_null($model)) ? $model : $this->parent->{$this->relation};
 

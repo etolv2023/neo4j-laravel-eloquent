@@ -121,7 +121,7 @@ class HasOne extends HasOneOrMany
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\EdgeOut
      */
-    public function getEdge(Model $model = null, $attributes = array())
+    public function getEdge(?Model $model = null, $attributes = array())
     {
         $model = (!is_null($model)) ? $model : $this->related;
 
@@ -139,7 +139,7 @@ class HasOne extends HasOneOrMany
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In,Out, etc.]
      */
-    public function edge(Model $model = null)
+    public function edge(?Model $model = null)
     {
         return $this->getEdge($model)->current();
     }

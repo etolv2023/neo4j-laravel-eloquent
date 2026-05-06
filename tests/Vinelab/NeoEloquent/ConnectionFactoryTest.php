@@ -10,6 +10,8 @@ use Illuminate\Container\Container;
 
 class ConnectionFactoryTest extends TestCase
 {
+    protected ConnectionFactory $factory;
+
     public function setUp(): void
     {
         $this->factory = new ConnectionFactory(new Container());
@@ -98,7 +100,7 @@ class ConnectionFactoryTest extends TestCase
         ];
 
         $this->expectException(Exception::class);
-        $this->expectErrorMessage('High Availability mode is not supported anymore. Please use the neo4j scheme instead');
+        $this->expectExceptionMessage('High Availability mode is not supported anymore. Please use the neo4j scheme instead');
         $this->factory->make($config);
     }
 }

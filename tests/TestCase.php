@@ -15,17 +15,14 @@ class Stub extends Model
 
 class TestCase extends PHPUnit
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        // load custom configuration file
-        $this->dbConfig = require 'config/database.php';
-    }
+    protected array $dbConfig;
 
     public function setUp(): void
     {
         parent::setUp();
+
+        // load custom configuration file
+        $this->dbConfig = require __DIR__.'/config/database.php';
 
         $resolver = M::mock('Illuminate\Database\ConnectionResolverInterface');
         $resolver->shouldReceive('connection')->andReturn($this->getConnectionWithConfig('default'));

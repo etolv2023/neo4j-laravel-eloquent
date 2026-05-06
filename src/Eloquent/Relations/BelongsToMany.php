@@ -155,7 +155,7 @@ class BelongsToMany extends HasOneOrMany
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In|Out]
      */
-    public function edge(Model $model = null)
+    public function edge(?Model $model = null)
     {
         return $this->finder->first($this->parent, $model, $this->type, $this->edgeDirection);
     }
@@ -168,7 +168,7 @@ class BelongsToMany extends HasOneOrMany
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In|Out]
      */
-    public function getEdge(Model $model = null, $attributes = array())
+    public function getEdge(?Model $model = null, $attributes = array())
     {
         $model = (!is_null($model)) ? $model : $this->related;
 

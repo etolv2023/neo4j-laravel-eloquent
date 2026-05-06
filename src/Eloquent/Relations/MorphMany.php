@@ -90,7 +90,7 @@ class MorphMany extends BelongsToMany
      *
      * @return \Vinelab\NeoEloquent\Eloquent\Edges\Edge[In|Out]
      */
-    public function getEdge(Model $model = null, $attributes = array())
+    public function getEdge(?Model $model = null, $attributes = array())
     {
         $model = (!is_null($model)) ? $model : $this->related;
 
