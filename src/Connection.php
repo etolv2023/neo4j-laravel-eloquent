@@ -367,13 +367,46 @@ class Connection implements ConnectionInterface
     /**
      * Create a new Neo4j client.
      *
+     * If the application container already has {@see ClientInterface} bound (custom
+     * {@see ClientBuilder} setup, formatter, session options, etc.), reuse it so
+     * NeoEloquent and `app(ClientInterface::class)` share one client. Otherwise build
+     * the default Bolt client from this connection's config.
+     *
      * @return ClientInterface
      */
     public function createSingleConnectionClient()
     {
+        $shared = $this->getSharedClientFromContainer();
+        if ($shared !== null) {
+            return $shared;
+        }
+
         return $this->initBuilder()
             ->withDriver('default', $this->buildUriFromConfig($this->getConfig()), $this->buildAuth($this->getConfig()))
             ->build();
+    }
+
+    /**
+     * @return ClientInterface|null
+     */
+    private function getSharedClientFromContainer(): ?ClientInterface
+    {
+        if (!function_exists('app')) {
+            return null;
+        }
+
+        try {
+            $app = app();
+        } catch (Throwable) {
+            return null;
+        }
+
+        if (!is_object($app) || !method_exists($app, 'bound') || !$app->bound(ClientInterface::class)) {
+            return null;
+        }
+
+        /** @var ClientInterface */
+        return $app->make(ClientInterface::class);
     }
 
     private function initBuilder(): ClientBuilder
