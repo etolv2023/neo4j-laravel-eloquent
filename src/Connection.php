@@ -372,7 +372,7 @@ class Connection implements ConnectionInterface
     public function createSingleConnectionClient()
     {
         return $this->initBuilder()
-            ->withDriver('default', $this->buildUriFromConfig($this->getConfig()), $this->getAuth())
+            ->withDriver('default', $this->buildUriFromConfig($this->getConfig()), $this->buildAuth($this->getConfig()))
             ->build();
     }
 
@@ -393,7 +393,7 @@ class Connection implements ConnectionInterface
                 $builder = $builder->withDefaultDriver($connection);
             }
 
-            $builder = $builder->withDriver($connection, $this->buildUriFromConfig($config), $this->getAuth());
+            $builder = $builder->withDriver($connection, $this->buildUriFromConfig($config), $this->buildAuth($config));
         }
 
         return $builder->build();
@@ -1203,23 +1203,16 @@ class Connection implements ConnectionInterface
      */
     private function buildUriFromConfig(array $config): string
     {
-        $uri = '';
-        $scheme = $this->getScheme($config);
-        if ($scheme) {
-            $uri .= $scheme . '://';
-        }
-
+        $scheme = $this->getScheme($config) ?: 'bolt';
         $host = $this->getHost($config);
-        if ($host) {
-            $uri .= '@' . $host;
-        }
-
         $port = $this->getPort($config);
-        if ($port) {
-            $uri .= ':' . $port;
-        }
-
         $database = $this->getDatabase($config);
+
+        // Same shape as Laudis defaults, e.g. bolt://host:7687 — not bolt://@host (erroneous @ breaks URL parsing / auth).
+        $uri = $scheme.'://'.$host;
+        if ($port !== null && $port !== '') {
+            $uri .= ':'.$port;
+        }
         if ($database) {
             $uri .= '?database='.urlencode($database);
         }
@@ -1230,12 +1223,12 @@ class Connection implements ConnectionInterface
     /**
      * @return AuthenticateInterface
      */
-    private function getAuth(): AuthenticateInterface
+    private function buildAuth(array $config): AuthenticateInterface
     {
-        $username = $this->getUsername($this->getConfig());
-        $password = $this->getPassword($this->getConfig());
-        if ($username && $password) {
-            return Authenticate::basic($username, $password);
+        $username = $this->getUsername($config);
+        $password = $this->getPassword($config);
+        if ($username !== null && $username !== '' && $password !== null && $password !== '') {
+            return Authenticate::basic((string) $username, (string) $password);
         }
 
         return Authenticate::disabled();
