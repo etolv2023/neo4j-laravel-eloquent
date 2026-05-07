@@ -2,6 +2,7 @@
 
 use Vinelab\NeoEloquent\Connection;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\SQLiteConnection;
 use Vinelab\NeoEloquent\Schema\Grammars\CypherGrammar;
 
 $connection = [
@@ -16,10 +17,11 @@ Vinelab\NeoEloquent\Neo4j::connection($connection);
 
 $capsule = new Capsule;
 $manager = $capsule->getDatabaseManager();
-$manager->extend('neo4j', function($config)
-{
+$manager->extend('neo4j', function ($config) {
     $conn = new Connection($config);
-    $conn->setSchemaGrammar(new CypherGrammar);
+    $grammarConnection = new SQLiteConnection(new \PDO('sqlite::memory:'), ':memory:', '', ['driver' => 'sqlite']);
+    $conn->setSchemaGrammar(new CypherGrammar($grammarConnection));
+
     return $conn;
 });
 

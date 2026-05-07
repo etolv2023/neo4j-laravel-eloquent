@@ -10,11 +10,9 @@ class Grammar extends IlluminateSchemaGrammar
     /**
      * Create a new grammar instance.
      */
-    public function __construct(?Connection $connection = null)
+    public function __construct(Connection $connection)
     {
-        if ($connection) {
-            parent::__construct($connection);
-        }
+        parent::__construct($connection);
     }
 
     /**
